@@ -12,7 +12,7 @@ const pt1 = (input: string) => {
   const leftList: number[] = [];
   const rightList: number[] = [];
 
-  const lines = input.split("\n").slice(1);
+  const lines = input.split("\n")
   lines.forEach((line) => {
     const [first, second] = line.split("   ");
     leftList.push(+first);
@@ -34,7 +34,7 @@ const pt2 = (input: string) => {
   const leftList: number[] = [];
   const rightList: number[] = [];
 
-  const lines = input.split("\n").slice(1);
+  const lines = input.split("\n")
   lines.forEach((line) => {
     const [first, second] = line.split("   ");
     leftList.push(+first);
