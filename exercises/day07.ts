@@ -1,6 +1,3 @@
-// 2 ^ (n - 1)
-// 1 operator per 2 operands (minus one)
-// 2 types of operations (+ | *)
 const generateOperatorCombinations = (combinationSize: number): string[][] => {
   const combinations: string[][] = [];
   const backtrack = (curr: string[]) => {
@@ -13,6 +10,10 @@ const generateOperatorCombinations = (combinationSize: number): string[][] => {
     curr.pop();
 
     curr.push("*");
+    backtrack(curr);
+    curr.pop();
+
+    curr.push("||");
     backtrack(curr);
     curr.pop();
   };
@@ -42,11 +43,17 @@ const checkThroughCombinations = (
           copy = [left * right, ...copy];
           break;
         }
+        case "||": {
+          const left = copy.shift()!;
+          const right = copy.shift()!;
+          copy = [concatNumbers(left, right), ...copy];
+          break;
+        }
       }
     }
-    if (copy.shift() === goal) return true;
+    if (copy.shift() === goal) return goal;
   }
-  return false;
+  return 0;
 };
 
 export const day07a = () => {
@@ -57,7 +64,24 @@ export const day07a = () => {
     const goal = Number(testOutput);
     const operands = inputString.split(" ").map(Number);
     const combinations = generateOperatorCombinations(operands.length - 1);
-    if (checkThroughCombinations(combinations, operands, goal)) result += goal;
+    result += checkThroughCombinations(combinations, operands, goal);
+  }
+  return result;
+};
+
+const concatNumbers = (left: number, right: number) => {
+  return Number(`${left}${right}`);
+};
+
+export const day07b = () => {
+  let result = 0;
+  const operations = input.split("\n");
+  for (const operation of operations) {
+    const [testOutput, inputString] = operation.split(": ");
+    const goal = Number(testOutput);
+    const operands = inputString.split(" ").map(Number);
+    const combinations = generateOperatorCombinations(operands.length - 1);
+    result += checkThroughCombinations(combinations, operands, goal);
   }
   return result;
 };
