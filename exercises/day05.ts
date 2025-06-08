@@ -1,19 +1,13 @@
 type Rule = {
-  current: number;
-  mustComeBefore: number;
+  before: number;
+  after: number;
 };
 
 const middleFromValid = (rules: Rule[], update: string) => {
   const updateList = update.split(",").map((n) => Number(n));
   for (const rule of rules) {
-    if (
-      updateList.includes(rule.current) &&
-      updateList.includes(rule.mustComeBefore)
-    ) {
-      if (
-        updateList.indexOf(rule.current) >
-        updateList.indexOf(rule.mustComeBefore)
-      ) {
+    if (updateList.includes(rule.before) && updateList.includes(rule.after)) {
+      if (updateList.indexOf(rule.before) > updateList.indexOf(rule.after)) {
         return 0;
       }
     }
@@ -27,13 +21,13 @@ export const day05a = () => {
   const [firstSection, secondSection] = input.split("\n\n");
   firstSection.split("\n").forEach((line) => {
     const [current, before] = line.split("|");
-    rules.push({ current: Number(current), mustComeBefore: Number(before) });
+    rules.push({ before: Number(current), after: Number(before) });
   });
 
   const updates = secondSection.split("\n");
   return updates.reduce(
     (acc, update) => acc + middleFromValid(rules, update),
-    0
+    0,
   );
 };
 
@@ -48,14 +42,8 @@ const middleFromInvalid = (rules: Rule[], update: string) => {
   let updateList = update.split(",").map((n) => Number(n));
 
   for (const rule of rules) {
-    if (
-      updateList.includes(rule.current) &&
-      updateList.includes(rule.mustComeBefore)
-    ) {
-      if (
-        updateList.indexOf(rule.current) >
-        updateList.indexOf(rule.mustComeBefore)
-      ) {
+    if (updateList.includes(rule.before) && updateList.includes(rule.after)) {
+      if (updateList.indexOf(rule.before) > updateList.indexOf(rule.after)) {
         isInvalid = true;
         break;
       }
@@ -69,18 +57,12 @@ const middleFromInvalid = (rules: Rule[], update: string) => {
   while (hasSwapped) {
     hasSwapped = false;
     for (const rule of rules) {
-      if (
-        updateList.includes(rule.current) &&
-        updateList.includes(rule.mustComeBefore)
-      ) {
-        if (
-          updateList.indexOf(rule.current) >
-          updateList.indexOf(rule.mustComeBefore)
-        ) {
+      if (updateList.includes(rule.before) && updateList.includes(rule.after)) {
+        if (updateList.indexOf(rule.before) > updateList.indexOf(rule.after)) {
           swap(
             updateList,
-            updateList.indexOf(rule.current),
-            updateList.indexOf(rule.mustComeBefore)
+            updateList.indexOf(rule.before),
+            updateList.indexOf(rule.after),
           );
           // after a swap, another check is needed
           // (dependency chains)
@@ -99,13 +81,13 @@ export const day05b = () => {
   const [firstSection, secondSection] = input.split("\n\n");
   firstSection.split("\n").forEach((line) => {
     const [current, before] = line.split("|");
-    rules.push({ current: Number(current), mustComeBefore: Number(before) });
+    rules.push({ before: Number(current), after: Number(before) });
   });
 
   const updates = secondSection.split("\n");
   return updates.reduce(
     (acc, update) => acc + middleFromInvalid(rules, update),
-    0
+    0,
   );
 };
 
@@ -1478,4 +1460,5 @@ const input = `98|43
 45,19,94,23,98,55,93,96,67,37,76,72,33,31,22,47,24,59,82,69,41
 87,47,93,56,59,82,19,76,23,45,31,72,63
 67,49,31,53,66,43,99,14,55,11,77,38,86,41,62
+
 68,11,75,89,42,49,62,86,24`;

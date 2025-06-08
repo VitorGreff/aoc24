@@ -108,7 +108,7 @@ export const day08b = () => {
     for (let c = 0; c < grid[r].length; c++) {
       if (checkRequirements2({ symbol: grid[r][c], x: r, y: c }, antennas)) {
         if (grid[r][c] === ".") grid[r][c] = "#";
-        else grid[r][c] = "#" + grid[r][c]; // represents # + grid[r][c]
+        else grid[r][c] = "#" + grid[r][c];
         counter++;
       }
     }
