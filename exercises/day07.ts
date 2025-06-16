@@ -25,7 +25,7 @@ const generateOperatorCombinations = (combinationSize: number): string[][] => {
 const checkThroughCombinations = (
   combinations: string[][],
   operands: number[],
-  goal: number
+  goal: number,
 ) => {
   for (const combination of combinations) {
     let copy = operands.slice();

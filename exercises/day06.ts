@@ -138,7 +138,6 @@ export const day06a = (): number => {
 
   const [finalX, finalY] = locateGuard(grid);
   grid[finalX][finalY] = "X";
-  print2DArray(grid);
   return countVisited(grid);
 };
 
